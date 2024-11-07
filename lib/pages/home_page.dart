@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:pks_3/components/item.dart';  // Поменяй на свой путь импорта
-import 'package:pks_3/model/product.dart';  // Поменяй на свой путь импорта
-import 'package:pks_3/pages/add_bearing.dart';  // Поменяй на свой путь импорта
+import 'package:pks_3/components/item.dart';
+import 'package:pks_3/model/product.dart';
+import 'package:pks_3/pages/add_bearing.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Function(Bearing) onFavoriteToggle;
+  final List<Bearing> favoriteBearings;
+
+  const HomePage({
+    super.key,
+    required this.onFavoriteToggle,
+    required this.favoriteBearings,
+  });
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Bearing> bearings = List.from(initialBearings);  // Используем список подшипников
+  List<Bearing> bearings = List.from(initialBearings);
 
   void _addNewBearing(Bearing bearing) {
     setState(() {
       bearings.add(bearing);
     });
   }
-
 
   void _removeBearing(int id) {
     setState(() {
@@ -32,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Подшипники',
+            'Подшипники FAG',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ),
@@ -51,6 +57,7 @@ class _HomePageState extends State<HomePage> {
           itemCount: bearings.length,
           itemBuilder: (BuildContext context, int index) {
             final bearing = bearings[index];
+            final isFavorite = widget.favoriteBearings.contains(bearing);
             return Dismissible(
               key: Key(bearing.id.toString()),
               background: Container(
@@ -66,11 +73,15 @@ class _HomePageState extends State<HomePage> {
                   SnackBar(content: Text("${bearing.title} удален")),
                 );
               },
-              child: ItemNote(bearing: bearing),  // Используем ItemNote для отображения подшипников
+              child: ItemNote(
+                bearing: bearing,
+                isFavorite: isFavorite,
+                onFavoriteToggle: () => widget.onFavoriteToggle(bearing),
+              ),
             );
           },
         )
-            : const Center(child: Text('Нет доступных подшипников')),
+            : const Center(child: Text('Нет доступных товаров')),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -82,8 +93,8 @@ class _HomePageState extends State<HomePage> {
             _addNewBearing(newBearing);
           }
         },
-        child: const Icon(Icons.add),
         backgroundColor: Colors.green,
+        child: const Icon(Icons.add),
       ),
     );
   }

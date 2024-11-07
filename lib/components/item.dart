@@ -3,18 +3,23 @@ import 'package:pks_3/model/product.dart';
 import 'package:pks_3/pages/information.dart';
 
 class ItemNote extends StatelessWidget {
-  const ItemNote({super.key, required this.bearing});
-
   final Bearing bearing;
+  final bool isFavorite;
+  final VoidCallback onFavoriteToggle;
 
+  const ItemNote({
+    super.key,
+    required this.bearing,
+    required this.isFavorite,
+    required this.onFavoriteToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => CatalogPage(bearing: bearing)),
+        MaterialPageRoute(builder: (context) => CatalogPage(bearing: bearing)),
       ),
       child: Card(
         elevation: 4.0,
@@ -23,18 +28,33 @@ class ItemNote extends StatelessWidget {
         ),
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius:
-              const BorderRadius.vertical(top: Radius.circular(16.0)),
-              child: Container(
-                color: Colors.white,
-                height: 120,
-                width: double.infinity,
-                child: Image.network(
-                  bearing.imageUrl,
-                  fit: BoxFit.contain,
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
+                  child: Container(
+                    color: Colors.white,
+                    height: 120,
+                    width: double.infinity,
+                    child: Image.network(
+                      bearing.imageUrl,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
-              ),
+
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: IconButton(
+                    icon: Icon(
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: Colors.red,
+                    ),
+                    onPressed: onFavoriteToggle,
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -58,14 +78,12 @@ class ItemNote extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => CatalogPage(bearing: bearing),
-                  ),
+                  MaterialPageRoute(builder: (context) => CatalogPage(bearing: bearing)),
                 );
               },
               child: const Text(
                 'Подробнее',
-                style: TextStyle(fontSize: 12, color: Colors.black),
+                style: TextStyle(fontSize: 12, color: Colors.white),
               ),
             ),
           ],

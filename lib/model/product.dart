@@ -6,7 +6,7 @@ class Bearing {
   final String cost;
   final String article;
 
-  // Используем именованные параметры для конструктора
+
   Bearing({
     required this.id,
     required this.title,

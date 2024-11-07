@@ -15,7 +15,7 @@ class CatalogPage extends StatelessWidget {
           bearing.title,
           style: const TextStyle(fontSize: 22),
         ),
-        backgroundColor: Color(0xFF08954C), // Цвет AppBar
+        backgroundColor: const Color(0xFF08954C),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -39,7 +39,7 @@ class CatalogPage extends StatelessWidget {
                 bearing.description,
                 style: const TextStyle(
                   fontSize: 18.0,
-                  color: Colors.black87, // Основной текст чёрный
+                  color: Colors.black87,
                 ),
                 textAlign: TextAlign.left,
               ),
@@ -52,7 +52,7 @@ class CatalogPage extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF000000), // Зелёный цвет для заголовков
+                  color: Color(0xFF000000),
                 ),
               ),
             ),
@@ -64,7 +64,7 @@ class CatalogPage extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF000000), // Зелёный цвет для акцентов
+                  color: Color(0xFF000000),
                 ),
               ),
             ),
@@ -76,7 +76,7 @@ class CatalogPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF08954C), // Зелёный цвет для заголовков
+                  color: Color(0xFF08954C),
                 ),
               ),
             ),
