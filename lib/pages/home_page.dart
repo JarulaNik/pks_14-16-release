@@ -3,6 +3,7 @@ import 'package:pks_3/components/item.dart';
 import 'package:pks_3/model/product.dart';
 import 'package:pks_3/pages/add_bearing.dart';
 
+
 class HomePage extends StatefulWidget {
   final Function(Bearing) onFavoriteToggle;
   final List<Bearing> favoriteBearings;

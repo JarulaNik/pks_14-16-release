@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/product.dart';
 
+
 class CatalogPage extends StatelessWidget {
   const CatalogPage({super.key, required this.bearing});
 

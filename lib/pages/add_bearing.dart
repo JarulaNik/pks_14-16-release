@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pks_3/model/product.dart';
 
+
 class AddBearingPage extends StatefulWidget {
   const AddBearingPage({super.key});
 

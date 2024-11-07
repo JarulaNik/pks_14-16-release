@@ -7,6 +7,7 @@ class ItemNote extends StatelessWidget {
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
 
+
   const ItemNote({
     super.key,
     required this.bearing,
