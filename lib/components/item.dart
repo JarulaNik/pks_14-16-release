@@ -13,8 +13,7 @@ class ItemNote extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => CatalogPage(bearing: bearing,)
-        ),
+            builder: (context) => CatalogPage(bearing: bearing)),
       ),
       child: Card(
         elevation: 4.0,
@@ -24,12 +23,16 @@ class ItemNote extends StatelessWidget {
         child: Column(
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
-              child: Image.network(
-                bearing.imageUrl,
+              borderRadius:
+              const BorderRadius.vertical(top: Radius.circular(16.0)),
+              child: Container(
+                color: Colors.white,
                 height: 120,
                 width: double.infinity,
-                fit: BoxFit.cover,
+                child: Image.network(
+                  bearing.imageUrl,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             Padding(
@@ -43,23 +46,26 @@ class ItemNote extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 'Цена: ${bearing.cost}',
-                style: const TextStyle(fontSize: 16, color: Colors.blueGrey),
+                style: const TextStyle(fontSize: 16, color: Colors.black),
               ),
             ),
             OutlinedButton(
               style: OutlinedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
-                  side: const BorderSide(color: Colors.white12, width: 2)
+                backgroundColor: Colors.green,
+                side: const BorderSide(color: Colors.white12, width: 2),
               ),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CatalogPage(bearing: bearing,)
+                    builder: (context) => CatalogPage(bearing: bearing),
                   ),
                 );
               },
-              child: const Text('Подробнее', style: TextStyle(fontSize: 12, color: Colors.white),),
+              child: const Text(
+                'Подробнее',
+                style: TextStyle(fontSize: 12, color: Colors.black),
+              ),
             ),
           ],
         ),

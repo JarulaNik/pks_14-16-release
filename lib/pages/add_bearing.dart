@@ -27,7 +27,6 @@ class AddBearingPageState extends State<AddBearingPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-
         backgroundColor: Colors.green,
       ),
       body: Padding(
