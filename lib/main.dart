@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pks_3/pages/home_page.dart';
 import 'package:pks_3/pages/favorites_page.dart';
 import 'package:pks_3/pages/profile_page.dart';
+import 'package:pks_3/pages/cart_page.dart';  // Страница корзины
 import 'package:pks_3/model/product.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Подшипники FAG',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -30,12 +30,13 @@ class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
   @override
-  _MainPageState createState() => _MainPageState();
+  MainPageState createState() => MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
-  List<Bearing> _favoriteBearings = [];
+  final List<Bearing> _favoriteBearings = [];
+  final List<Bearing> _cartItems = []; // Список товаров в корзине
 
   void _toggleFavorite(Bearing bearing) {
     setState(() {
@@ -43,6 +44,16 @@ class _MainPageState extends State<MainPage> {
         _favoriteBearings.remove(bearing);
       } else {
         _favoriteBearings.add(bearing);
+      }
+    });
+  }
+
+  void _toggleCart(Bearing bearing) {
+    setState(() {
+      if (_cartItems.contains(bearing)) {
+        _cartItems.remove(bearing);  // Удалить товар из корзины
+      } else {
+        _cartItems.add(bearing);  // Добавить товар в корзину
       }
     });
   }
@@ -55,22 +66,35 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _pages = [
+    List<Widget> pages = [
       HomePage(
         onFavoriteToggle: _toggleFavorite,
         favoriteBearings: _favoriteBearings,
+        onAddToCart: _toggleCart,  // Передаем функцию для добавления в корзину
       ),
       FavoritesPage(
         favoriteBearings: _favoriteBearings,
         onFavoriteToggle: _toggleFavorite,
       ),
       const ProfilePage(),
+      CartPage(
+        cartItems: _cartItems,  // Передаем список товаров в корзине
+        onAddToCart: _toggleCart,
+        onRemoveFromCart: _toggleCart,  // Удаление товаров из корзины
+      ),
     ];
+
+
     return Scaffold(
-      body: _pages[_selectedIndex],
+      appBar: AppBar(
+        title: const Center(child: Text('Подшипники FAG', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
+        backgroundColor: Colors.green,
+      ),
+      body: pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(
@@ -84,6 +108,10 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Профиль',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Корзина',
           ),
         ],
       ),

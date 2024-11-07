@@ -6,13 +6,14 @@ class ItemNote extends StatelessWidget {
   final Bearing bearing;
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
-
+  final VoidCallback onAddToCart;
 
   const ItemNote({
     super.key,
     required this.bearing,
     required this.isFavorite,
     required this.onFavoriteToggle,
+    required this.onAddToCart,
   });
 
   @override
@@ -43,18 +44,6 @@ class ItemNote extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: IconButton(
-                    icon: Icon(
-                      isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: Colors.red,
-                    ),
-                    onPressed: onFavoriteToggle,
-                  ),
-                ),
               ],
             ),
             Padding(
@@ -71,20 +60,36 @@ class ItemNote extends StatelessWidget {
                 style: const TextStyle(fontSize: 16, color: Colors.black),
               ),
             ),
-            OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                backgroundColor: Colors.green,
-                side: const BorderSide(color: Colors.white12, width: 2),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CatalogPage(bearing: bearing)),
-                );
-              },
-              child: const Text(
-                'Подробнее',
-                style: TextStyle(fontSize: 12, color: Colors.white),
+            // Иконки и кнопки
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Иконка "Подробнее"
+                  IconButton(
+                    icon: const Icon(Icons.info, color: Colors.blue),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CatalogPage(bearing: bearing)),
+                      );
+                    },
+                  ),
+                  // Иконка "Добавить в корзину"
+                  IconButton(
+                    icon: const Icon(Icons.add_shopping_cart),
+                    onPressed: onAddToCart, // Важно, чтобы эта функция вызывалась
+                  ),
+                  // Иконка "Избранное"
+                  IconButton(
+                    icon: Icon(
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: Colors.red,
+                    ),
+                    onPressed: onFavoriteToggle,
+                  ),
+                ],
               ),
             ),
           ],

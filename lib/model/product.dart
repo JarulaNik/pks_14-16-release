@@ -3,16 +3,15 @@ class Bearing {
   final String title;
   final String description;
   final String imageUrl;
-  final String cost;
+  final double cost;  // Здесь меняем String на double
   final String article;
-
 
   Bearing({
     required this.id,
     required this.title,
     required this.description,
     required this.imageUrl,
-    required this.cost,
+    required this.cost,  // Тип изменен на double
     required this.article,
   });
 }
@@ -24,7 +23,7 @@ final List<Bearing> initialBearings = [
     title: "FAG 566719",
     description: "Радиально-упорный шариковый подшипник 566719",
     imageUrl: "https://evropodshipnikm.ru/upload/iblock/39a/radialno_upornye_sharikovyy_podshipnik_qj_206_xl_mpa_.jpg",
-    cost: '1350 рублей',
+    cost: 1350.0,  // Цена как число (double)
     article: '1',
   ),
   Bearing(
@@ -32,7 +31,7 @@ final List<Bearing> initialBearings = [
     title: "FAG 3204",
     description: "Радиальный двухрядный шариковый подшипник 3204 B-2RS-TVH.",
     imageUrl: "https://evropodshipnikm.ru/upload/iblock/ae6/radialnyy_dvukhryadnyy_sharikovyy_podshipnik_3204_b_2rs_tvh_.jpg",
-    cost: '1420 рублей',
+    cost: 1420.0,  // Цена как число (double)
     article: '2',
   ),
   Bearing(
@@ -40,7 +39,7 @@ final List<Bearing> initialBearings = [
     title: "FAG 24152",
     description: "Сферический роликовый подшипник 24152 B-MB",
     imageUrl: "https://evropodshipnikm.ru/upload/iblock/d52/sfericheskiy_rolikovyy_podshipnik_24152_b_mb_.jpg",
-    cost: '152400 рублей',
+    cost: 152400.0,  // Цена как число (double)
     article: '3',
   ),
   Bearing(
@@ -48,7 +47,7 @@ final List<Bearing> initialBearings = [
     title: "FAG NU 309",
     description: "Роликовый цилиндрический подшипник NU 309 EM1 N",
     imageUrl: "https://evropodshipnikm.ru/upload/iblock/8d1/rolikovyy_tsilindricheskiy_podshipnik_nu_309_em1_n_.jpg",
-    cost: '4650 рублей',
+    cost: 4650.0,  // Цена как число (double)
     article: '4',
   ),
   Bearing(
@@ -56,7 +55,7 @@ final List<Bearing> initialBearings = [
     title: "FAG QJ 212",
     description: "Радиально-упорные шариковые подшипники (серия QJ) подшипник QJ 212 XL MPA",
     imageUrl: "https://evropodshipnikm.ru/upload/iblock/3bd/radialno_upornye_sharikovye_podshipniki_seriya_qj_podshipnik_qj_212_xl_mpa.jpg",
-    cost: '7050 рублей',
+    cost: 7050.0,  // Цена как число (double)
     article: '5',
   ),
   Bearing(
@@ -64,7 +63,7 @@ final List<Bearing> initialBearings = [
     title: "FAG QJ 214",
     description: "Радиально-упорные шариковые подшипники (серия QJ) подшипник QJ 214 MPA",
     imageUrl: "https://evropodshipnikm.ru/upload/iblock/fee/radialno_upornye_sharikovye_podshipniki_seriya_qj_podshipnik_qj_214_mpa.jpg",
-    cost: '9580 рублей',
+    cost: 9580.0,  // Цена как число (double)
     article: '6',
   ),
   Bearing(
@@ -72,7 +71,7 @@ final List<Bearing> initialBearings = [
     title: "FAG NJ2313E",
     description: "Роликовый цилиндрический подшипник NJ2313E-TVP2-C4",
     imageUrl: "https://evropodshipnikm.ru/upload/iblock/82a/rolikovyy_tsilindricheskiy_podshipnik_nj2313e_tvp2_c4_.jpg",
-    cost: '30000 рублей',
+    cost: 30000.0,  // Цена как число (double)
     article: '7',
   ),
   Bearing(
@@ -80,7 +79,7 @@ final List<Bearing> initialBearings = [
     title: "FAG HC 6214",
     description: "Сверхточный подшипник HC 6214-M-C4",
     imageUrl: "https://evropodshipnikm.ru/upload/iblock/d2a/sverkhtochnyy_podshipnik_hc_6214_m_c4_.jpg",
-    cost: '54000 рублей',
+    cost: 54000.0,  // Цена как число (double)
     article: '8',
   ),
   Bearing(
@@ -88,7 +87,7 @@ final List<Bearing> initialBearings = [
     title: "FAG НС 71914",
     description: "Радиально-упорный шариковый подшипник НС 71914-С-Т-Р4S-UL",
     imageUrl: "https://evropodshipnikm.ru/upload/iblock/239/radialno_upornye_sharikovyy_podshipnik_ns_71914_s_t_r4s_ul_.jpg",
-    cost: '5,000,000 рублей',
+    cost: 5000000.0,  // Цена как число (double)
     article: '9',
   ),
   Bearing(
@@ -96,8 +95,7 @@ final List<Bearing> initialBearings = [
     title: "FAG T7FC085",
     description: "Конический роликовый подшипник T7FC085",
     imageUrl: "https://evropodshipnikm.ru/upload/iblock/15e/konicheskiy_rolikovyy_podshipnik_t7fc085_.png",
-    cost: '7,000,000 рублей',
+    cost: 7000000.0,  // Цена как число (double)
     article: '10',
   ),
-
 ];

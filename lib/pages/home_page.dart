@@ -3,22 +3,23 @@ import 'package:pks_3/components/item.dart';
 import 'package:pks_3/model/product.dart';
 import 'package:pks_3/pages/add_bearing.dart';
 
-
 class HomePage extends StatefulWidget {
   final Function(Bearing) onFavoriteToggle;
   final List<Bearing> favoriteBearings;
+  final Function(Bearing) onAddToCart;  // Параметр для добавления в корзину
 
   const HomePage({
     super.key,
     required this.onFavoriteToggle,
     required this.favoriteBearings,
+    required this.onAddToCart,  // Передаем функцию для добавления в корзину
   });
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   List<Bearing> bearings = List.from(initialBearings);
 
   void _addNewBearing(Bearing bearing) {
@@ -36,15 +37,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'Подшипники FAG',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-        ),
-        backgroundColor: Colors.green,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: bearings.isNotEmpty
@@ -78,6 +70,7 @@ class _HomePageState extends State<HomePage> {
                 bearing: bearing,
                 isFavorite: isFavorite,
                 onFavoriteToggle: () => widget.onFavoriteToggle(bearing),
+                onAddToCart: () => widget.onAddToCart(bearing), // Добавляем в корзину
               ),
             );
           },
@@ -91,7 +84,7 @@ class _HomePageState extends State<HomePage> {
             MaterialPageRoute(builder: (context) => const AddBearingPage()),
           );
           if (newBearing != null) {
-            _addNewBearing(newBearing);
+            _addNewBearing(newBearing);  // Добавление товара на главной странице
           }
         },
         backgroundColor: Colors.green,

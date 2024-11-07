@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:pks_3/components/item.dart';
 import 'package:pks_3/model/product.dart';
 
-
 class FavoritesPage extends StatelessWidget {
   final List<Bearing> favoriteBearings;
   final Function(Bearing) onFavoriteToggle;
 
-  const FavoritesPage({super.key, required this.favoriteBearings, required this.onFavoriteToggle});
+  const FavoritesPage({
+    super.key,
+    required this.favoriteBearings,
+    required this.onFavoriteToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,7 @@ class FavoritesPage extends StatelessWidget {
               onFavoriteToggle: () {
                 onFavoriteToggle(bearing);
               },
+              onAddToCart: () {},  // Пустая функция для onAddToCart
             );
           },
         )
