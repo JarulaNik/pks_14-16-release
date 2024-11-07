@@ -8,6 +8,7 @@ class AddBearingPage extends StatefulWidget {
   AddBearingPageState createState() => AddBearingPageState();
 }
 
+
 class AddBearingPageState extends State<AddBearingPage> {
   final _formKey = GlobalKey<FormState>();
   String title = '';

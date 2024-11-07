@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+
   void _removeBearing(int id) {
     setState(() {
       bearings.removeWhere((bearing) => bearing.id == id);

@@ -6,6 +6,7 @@ class CatalogPage extends StatelessWidget {
 
   final Bearing bearing;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

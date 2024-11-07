@@ -7,6 +7,7 @@ class ItemNote extends StatelessWidget {
 
   final Bearing bearing;
 
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

@@ -98,4 +98,5 @@ final List<Bearing> initialBearings = [
     cost: '7,000,000 рублей',
     article: '10',
   ),
+
 ];
