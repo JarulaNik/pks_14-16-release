@@ -7,3 +7,5 @@
 ![image](https://github.com/user-attachments/assets/80cf5e34-a918-4486-9329-bf9a49e11cde)
 ## Проверка в браузере
 ![image](https://github.com/user-attachments/assets/689f9fea-aaa6-4cfd-ba61-5b97190f2683)
+## Баз данных и Real-time отчёт об использовании CRUD-методов
+![image](https://github.com/user-attachments/assets/d7e4fb1f-a03f-4500-bad5-d62c6f923ef5)
