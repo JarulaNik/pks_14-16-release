@@ -3,7 +3,7 @@ class Bearing {
   final String title;
   final String description;
   final String imageUrl;
-  final double cost;  // Здесь меняем String на double
+  final double cost;
   final String article;
 
   Bearing({
@@ -11,9 +11,27 @@ class Bearing {
     required this.title,
     required this.description,
     required this.imageUrl,
-    required this.cost,  // Тип изменен на double
+    required this.cost,
     required this.article,
   });
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'description': description,
+    'imageUrl': imageUrl,
+    'cost': cost,
+    'article': article,
+  };
+
+  static Bearing fromJson(Map<String, dynamic> json) => Bearing(
+    id: json['id'],
+    title: json['title'],
+    description: json['description'],
+    imageUrl: json['imageUrl'],
+    cost: double.parse(json['cost'].toString()), // Обработка возможного прихода строки вместо числа
+    article: json['article'],
+  );
 }
 
 

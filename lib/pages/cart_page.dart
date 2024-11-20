@@ -30,7 +30,7 @@ class CartPageState extends State<CartPage> {
       return;
     }
 
-    // Показать сообщение об успешной покупке
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Покупка успешно завершена!")),
     );
