@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pks_3/auth/auth_service.dart';
+import 'package:pks_3/pages/login_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,7 +14,8 @@ class ProfilePageState extends State<ProfilePage> {
   final TextEditingController _emailController = TextEditingController(text: 'zhidkov.y.n@edu.mirea.ru');
   final TextEditingController _phoneController = TextEditingController(text: '+7(916) 807-01-00');
   String avatarUrl = 'https://avatars.githubusercontent.com/u/119223289?v=4';
-  bool _isEditing = false;  // Флаг для переключения режима редактирования
+  bool _isEditing = false;
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +30,11 @@ class ProfilePageState extends State<ProfilePage> {
         ),
         backgroundColor: Colors.green,
         actions: [
-          // Иконка карандаша для редактирования
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
               setState(() {
-                _isEditing = !_isEditing;  // Переключаем режим редактирования
+                _isEditing = !_isEditing;
               });
             },
           ),
@@ -44,81 +46,100 @@ class ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GestureDetector(
-              onTap: () {
-                // В будущем можно добавить логику смены аватара
-              },
+              onTap: () { },
               child: CircleAvatar(
                 radius: 60,
                 backgroundImage: NetworkImage(avatarUrl),
               ),
             ),
             const SizedBox(height: 20),
-            // Поле для имени и фамилии
             TextField(
               controller: _nameController,
               decoration: const InputDecoration(
                 labelText: 'Имя и фамилия',
                 border: OutlineInputBorder(),
               ),
-              enabled: _isEditing,  // Только в режиме редактирования
+              enabled: _isEditing,
             ),
             const SizedBox(height: 10),
-            // Поле для электронной почты
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
                 labelText: 'Электронная почта',
                 border: OutlineInputBorder(),
               ),
-              enabled: _isEditing,  // Только в режиме редактирования
+              enabled: _isEditing,
             ),
             const SizedBox(height: 10),
-            // Поле для телефона
             TextField(
               controller: _phoneController,
               decoration: const InputDecoration(
                 labelText: 'Телефон',
                 border: OutlineInputBorder(),
               ),
-              enabled: _isEditing,  // Только в режиме редактирования
+              enabled: _isEditing,
             ),
             const SizedBox(height: 20),
 
-            // Кнопка для сохранения изменений, отображается только в режиме редактирования
             if (_isEditing)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: SizedBox(
-                  width: double.infinity,  // Кнопка будет занимать всю ширину
+                  width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Логика сохранения данных
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text("Изменения успешно сохранены!")),
                       );
                       setState(() {
-                        _isEditing = false;  // Выключаем режим редактирования после сохранения
+                        _isEditing = false;
                       });
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14.0),
                       backgroundColor: Colors.green,
                       textStyle: const TextStyle(
-                        fontSize: 20,  // Увеличиваем размер шрифта до 20
-                        fontWeight: FontWeight.bold,  // Жирный шрифт
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      minimumSize: const Size(double.infinity, 48), // Занимает всю ширину экрана
+                      minimumSize: const Size(double.infinity, 48),
                     ),
                     child: const Text(
                       'Сохранить изменения',
                       style: TextStyle(
-                        color: Colors.black,  // Цвет шрифта черный
+                        color: Colors.black,
                       ),
                     ),
                   ),
                 ),
               ),
           ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.transparent,
+        elevation: 0,
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: ElevatedButton(
+              onPressed: () async {
+                await _authService.sighOut();
+                if (mounted) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                        (route) => false,
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.black,
+              ),
+              child: const Text("Выход"),
+            ),
+          ),
         ),
       ),
     );

@@ -88,7 +88,6 @@ class ApiService {
     } else {
       errorMessage = '$message: Неизвестная ошибка';
     }
-    print(errorMessage);
     throw Exception(errorMessage);
 
   }

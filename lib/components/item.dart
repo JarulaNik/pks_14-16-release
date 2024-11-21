@@ -60,13 +60,11 @@ class ItemNote extends StatelessWidget {
                 style: const TextStyle(fontSize: 16, color: Colors.black),
               ),
             ),
-            // Иконки и кнопки
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Иконка "Подробнее"
                   IconButton(
                     icon: const Icon(Icons.info, color: Colors.blue),
                     onPressed: () {
@@ -76,12 +74,10 @@ class ItemNote extends StatelessWidget {
                       );
                     },
                   ),
-                  // Иконка "Добавить в корзину"
                   IconButton(
                     icon: const Icon(Icons.add_shopping_cart),
-                    onPressed: onAddToCart, // Важно, чтобы эта функция вызывалась
+                    onPressed: onAddToCart,
                   ),
-                  // Иконка "Избранное"
                   IconButton(
                     icon: Icon(
                       isFavorite ? Icons.favorite : Icons.favorite_border,
