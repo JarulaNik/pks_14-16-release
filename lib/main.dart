@@ -5,10 +5,12 @@ import 'package:pks_3/pages/profile_page.dart';
 import 'package:pks_3/pages/cart_page.dart';  // Страница корзины
 import 'package:pks_3/model/product.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
-  
-  Supabase.initialize(
+  WidgetsFlutterBinding.ensureInitialized(); // Обязательно добавьте эту строку
+  await Firebase.initializeApp(); // Инициализация Firebase
+  await Supabase.initialize(
       url: "https://viyqngwksgofhktecedm.supabase.co",
       anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpeXFuZ3drc2dvZmhrdGVjZWRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIxMTQwNzEsImV4cCI6MjA0NzY5MDA3MX0.Fd-T1wNtWOakctyrmXo8cLeHRSzDRhkeWgfqwT6mLdo");
 
