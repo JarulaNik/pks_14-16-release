@@ -6,13 +6,13 @@ import 'package:pks_3/pages/add_bearing.dart';
 class HomePage extends StatefulWidget {
   final Function(Bearing) onFavoriteToggle;
   final List<Bearing> favoriteBearings;
-  final Function(Bearing) onAddToCart;  // Параметр для добавления в корзину
+  final Function(Bearing) onAddToCart;
 
   const HomePage({
     super.key,
     required this.onFavoriteToggle,
     required this.favoriteBearings,
-    required this.onAddToCart,  // Передаем функцию для добавления в корзину
+    required this.onAddToCart,
   });
 
   @override
@@ -21,6 +21,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   List<Bearing> bearings = List.from(initialBearings);
+  String searchQuery = '';
 
   void _addNewBearing(Bearing bearing) {
     setState(() {
@@ -34,12 +35,50 @@ class HomePageState extends State<HomePage> {
     });
   }
 
+  List<Bearing> get filteredBearings {
+    if (searchQuery.isEmpty) {
+      return bearings;
+    } else {
+      return bearings.where((bearing) => bearing.title.toLowerCase().contains(searchQuery.toLowerCase())).toList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(20.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value;
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Поиск...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: const BorderSide(color: Colors.green),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: bearings.isNotEmpty
+        child: filteredBearings.isNotEmpty
             ? GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -47,9 +86,9 @@ class HomePageState extends State<HomePage> {
             crossAxisSpacing: 8.0,
             mainAxisSpacing: 8.0,
           ),
-          itemCount: bearings.length,
+          itemCount: filteredBearings.length,
           itemBuilder: (BuildContext context, int index) {
-            final bearing = bearings[index];
+            final bearing = filteredBearings[index];
             final isFavorite = widget.favoriteBearings.contains(bearing);
             return Dismissible(
               key: Key(bearing.id.toString()),
@@ -70,7 +109,7 @@ class HomePageState extends State<HomePage> {
                 bearing: bearing,
                 isFavorite: isFavorite,
                 onFavoriteToggle: () => widget.onFavoriteToggle(bearing),
-                onAddToCart: () => widget.onAddToCart(bearing), // Добавляем в корзину
+                onAddToCart: () => widget.onAddToCart(bearing),
               ),
             );
           },
@@ -84,7 +123,7 @@ class HomePageState extends State<HomePage> {
             MaterialPageRoute(builder: (context) => const AddBearingPage()),
           );
           if (newBearing != null) {
-            _addNewBearing(newBearing);  // Добавление товара на главной странице
+            _addNewBearing(newBearing);
           }
         },
         backgroundColor: Colors.green,
