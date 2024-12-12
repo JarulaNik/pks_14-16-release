@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:pks_3/pages/home_page.dart';
 import 'package:pks_3/pages/favorites_page.dart';
 import 'package:pks_3/pages/profile_page.dart';
-import 'package:pks_3/pages/cart_page.dart';  // Страница корзины
+import 'package:pks_3/pages/cart_page.dart';
 import 'package:pks_3/model/product.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'api_service.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Обязательно добавьте эту строку
-  await Firebase.initializeApp(); // Инициализация Firebase
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await Supabase.initialize(
       url: "https://viyqngwksgofhktecedm.supabase.co",
-      anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpeXFuZ3drc2dvZmhrdGVjZWRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIxMTQwNzEsImV4cCI6MjA0NzY5MDA3MX0.Fd-T1wNtWOakctyrmXo8cLeHRSzDRhkeWgfqwT6mLdo");
+      anonKey:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpeXFuZ3drc2dvZmhrdGVjZWRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIxMTQwNzEsImV4cCI6MjA0NzY5MDA3MX0.Fd-T1wNtWOakctyrmXo8cLeHRSzDRhkeWgfqwT6mLdo");
 
   runApp(const MyApp());
 }
@@ -34,6 +36,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -43,8 +46,10 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
-  final List<Bearing> _favoriteBearings = [];
-  final List<Bearing> _cartItems = []; // Список товаров в корзине
+  final List<Bearing> _favoriteBearings = []; // Избранные подшипники (ID)
+  final List<Bearing> _cartItems = []; // Товары в корзине (ID)
+  final _apiService = ApiService(); // Экземпляр ApiService
+
 
   void _toggleFavorite(Bearing bearing) {
     setState(() {
@@ -56,15 +61,17 @@ class MainPageState extends State<MainPage> {
     });
   }
 
+
   void _toggleCart(Bearing bearing) {
     setState(() {
       if (_cartItems.contains(bearing)) {
-        _cartItems.remove(bearing);  // Удалить товар из корзины
+        _cartItems.remove(bearing);
       } else {
-        _cartItems.add(bearing);  // Добавить товар в корзину
+        _cartItems.add(bearing);
       }
     });
   }
+
 
   void _onItemTapped(int index) {
     setState(() {
@@ -78,24 +85,26 @@ class MainPageState extends State<MainPage> {
       HomePage(
         onFavoriteToggle: _toggleFavorite,
         favoriteBearings: _favoriteBearings,
-        onAddToCart: _toggleCart,  // Передаем функцию для добавления в корзину
+        onAddToCart: _toggleCart,
+        apiService: _apiService, // Передаем ApiService в HomePage
       ),
       FavoritesPage(
         favoriteBearings: _favoriteBearings,
         onFavoriteToggle: _toggleFavorite,
       ),
-      const ProfilePage(),
+      ProfilePage(apiService: _apiService), // Передаем ApiService в ProfilePage
       CartPage(
-        cartItems: _cartItems,  // Передаем список товаров в корзине
+        cartItems: _cartItems,
         onAddToCart: _toggleCart,
-        onRemoveFromCart: _toggleCart,  // Удаление товаров из корзины
+        onRemoveFromCart: _toggleCart,
       ),
     ];
 
-
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text('Подшипники FAG', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
+        title: const Center(
+            child: Text('Подшипники FAG',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
         backgroundColor: Colors.green,
       ),
       body: pages[_selectedIndex],

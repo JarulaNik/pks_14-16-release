@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import '/auth/auth_service.dart';
 import '/pages/register_page.dart';
+import 'package:flutter/material.dart';
+import '/auth/auth_service.dart';
+import '/pages/register_page.dart';
 import '/pages/profile_page.dart';
+import 'package:pks_3/api_service.dart'; // Импортируйте ApiService
+
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -11,6 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final authService = AuthService();
+  final apiService = ApiService(); // Создайте экземпляр ApiService
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -21,21 +28,21 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       await authService.signInWithEmailPassword(email, password);
-      if (mounted) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => ProfilePage()),
-              (route) => false,
-        );
-      }
+      if (!mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProfilePage(apiService: apiService)), // Передайте apiService
+            (route) => false,
+      );
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Ошибка авторизации: $e")),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Ошибка авторизации: $e")),
+      );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -42,7 +42,7 @@ class FavoritesPage extends StatelessWidget {
               onFavoriteToggle: () {
                 onFavoriteToggle(bearing);
               },
-              onAddToCart: () {},  // Пустая функция для onAddToCart
+              onAddToCart: () {},
             );
           },
         )

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '/auth/auth_service.dart';
 import '/pages/profile_page.dart';
+import 'package:pks_3/api_service.dart'; // Импортируйте ApiService
+
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -10,10 +12,12 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final authService = AuthService();
+  final apiService = ApiService(); // Создайте экземпляр ApiService
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
 
   void signUp() async {
     final email = _emailController.text;
@@ -29,19 +33,18 @@ class _RegisterPageState extends State<RegisterPage> {
 
     try {
       await authService.signUpWithEmailPassword(email, password);
-      if (mounted) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => ProfilePage()),
-              (route) => false,
-        );
-      }
+      if (!mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProfilePage(apiService: apiService)), // Передайте apiService
+            (route) => false,
+      );
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Ошибка регистрации: $e")),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Ошибка регистрации: $e")),
+      );
     }
   }
 

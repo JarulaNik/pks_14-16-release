@@ -29,7 +29,7 @@ class Bearing {
     title: json['title'],
     description: json['description'],
     imageUrl: json['imageUrl'],
-    cost: double.parse(json['cost'].toString()), // Обработка возможного прихода строки вместо числа
+    cost: (json['cost'] as num).toDouble(),  // Безопасное преобразование в double
     article: json['article'],
   );
 }

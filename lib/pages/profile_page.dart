@@ -1,21 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:pks_3/api_service.dart';
 import 'package:pks_3/auth/auth_service.dart';
+import 'package:pks_3/model/order.dart';
 import 'package:pks_3/pages/login_page.dart';
+import 'package:intl/intl.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final ApiService apiService; // Добавляем ApiService как параметр
+
+  const ProfilePage({super.key, required this.apiService});
 
   @override
   ProfilePageState createState() => ProfilePageState();
 }
 
+
 class ProfilePageState extends State<ProfilePage> {
   final TextEditingController _nameController = TextEditingController(text: 'Ярослав Жидков');
   final TextEditingController _emailController = TextEditingController(text: 'zhidkov.y.n@edu.mirea.ru');
   final TextEditingController _phoneController = TextEditingController(text: '+7(916) 807-01-00');
+  String userId = Supabase.instance.client.auth.currentUser!.id;
   String avatarUrl = 'https://avatars.githubusercontent.com/u/119223289?v=4';
   bool _isEditing = false;
   final AuthService _authService = AuthService();
+
+  List<Order> _orders = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+    _loadOrders();
+  }
+
+
+
+  Future<void> _loadOrders() async {
+    try {
+      final orders = await widget.apiService.getOrders(userId);
+      setState(() {
+        _orders = orders;
+      });
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Ошибка при загрузке заказов: $e')),
+        );
+      }
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +83,7 @@ class ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GestureDetector(
-              onTap: () { },
+              onTap: () {},
               child: CircleAvatar(
                 radius: 60,
                 backgroundImage: NetworkImage(avatarUrl),
@@ -79,8 +116,8 @@ class ProfilePageState extends State<ProfilePage> {
               ),
               enabled: _isEditing,
             ),
-            const SizedBox(height: 20),
 
+            const SizedBox(height: 20),
             if (_isEditing)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
@@ -88,8 +125,11 @@ class ProfilePageState extends State<ProfilePage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
+                      // сохранение изменений профиля
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Изменения успешно сохранены!")),
+                        const SnackBar(
+                            content: Text("Изменения успешно сохранены!")),
                       );
                       setState(() {
                         _isEditing = false;
@@ -113,6 +153,41 @@ class ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
+            ElevatedButton( // Кнопка для загрузки заказов
+              onPressed: _loadOrders,
+              child: const Text('История заказов'),
+            ),
+            Expanded(
+              child: _orders.isEmpty
+                  ? const Center(child: Text('Заказов нет'))
+                  : ListView.builder(
+                itemCount: _orders.length,
+                itemBuilder: (context, index) {
+                  final order = _orders[index];
+                  final formattedDate =
+                  DateFormat('dd.MM.yyyy HH:mm').format(order.orderDate);
+                  return Card(
+                    child: ListTile(
+                      title: Text('Заказ №${order.orderId}'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Дата: $formattedDate'),
+                          Text(
+                              'Сумма: ${order.totalAmount.toStringAsFixed(2)} руб.'),
+                          ...order.items.map((item) => Text(
+                            '${item.productName} x ${item.quantity}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+
           ],
         ),
       ),

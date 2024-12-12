@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
-
+import 'package:pks_3/api_service.dart'; // Импортируйте ApiService
+import 'package:pks_3/model/product.dart';
 
 
 class AddBearingPage extends StatefulWidget {
@@ -13,23 +13,38 @@ class AddBearingPage extends StatefulWidget {
 
 class AddBearingPageState extends State<AddBearingPage> {
   final _formKey = GlobalKey<FormState>();
-  String title = '';
+  final _apiService = ApiService(); // Создайте экземпляр ApiService
+  String name = '';  // Изменено имя переменной
   String description = '';
   String imageUrl = '';
-  double cost = 0.0;  // Убедитесь, что это double
-  String article = '';
+  double price = 0.0; // Изменено имя переменной
+  int stock = 0;     // Добавлено поле stock
+  String article = ''; // Добавлено поле article
 
-  // Этот метод вызывается при сохранении формы
-  void _saveForm() {
+
+  void _saveForm() async {
     if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();  // Сохранение значений из полей
+      _formKey.currentState!.save();
 
-      // Преобразование строки в double уже выполнено в onSaved
-      print('Title: $title');
-      print('Description: $description');
-      print('Image URL: $imageUrl');
-      print('Cost: $cost');
-      print('Article: $article');
+      final newBearing = Bearing(
+        id: 0,
+        title: name,     // Используйте измененное имя переменной
+        description: description,
+        imageUrl: imageUrl,
+        cost: price,   // Используйте измененное имя переменной
+        article: article, // Добавьте значение article
+      );
+
+      try {
+        final createdBearing = await _apiService.createBearing(newBearing); // Вызовите метод API
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context, createdBearing); // Возвращаем созданный подшипник
+      } catch (e) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Ошибка при создании: $e')),
+        );
+      }
     }
   }
 
@@ -49,7 +64,7 @@ class AddBearingPageState extends State<AddBearingPage> {
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Название'),
                 onSaved: (value) {
-                  title = value!;
+                  name = value!;
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -86,7 +101,7 @@ class AddBearingPageState extends State<AddBearingPage> {
                 decoration: const InputDecoration(labelText: 'Цена (рублей)'),
                 keyboardType: TextInputType.number,
                 onSaved: (value) {
-                  cost = value != null && value.isNotEmpty
+                  price = value != null && value.isNotEmpty
                       ? double.tryParse(value) ?? 0.0
                       : 0.0; // Преобразуем строку в double, если не удается - присваиваем 0.0
                 },
