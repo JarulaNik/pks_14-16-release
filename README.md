@@ -7,6 +7,7 @@
 
 ## Авторизация
 
+
 ## Регистрация
 ![image](https://github.com/user-attachments/assets/e2c50eaf-4bb8-4bdf-ae53-fa9291917569)
 ## Проверка методов в Постман
@@ -19,8 +20,6 @@
 ##
 ##
 ##
-
-
 
 ## Проверка на запуск GO-сервера
 ![image](https://github.com/user-attachments/assets/ae7fa7af-ddd8-48d9-8df2-4a80aacb8867)
